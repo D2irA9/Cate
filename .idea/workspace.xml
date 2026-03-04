@@ -4,35 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8629b07b-f50e-4cc9-9493-b50ab370b30a" name="Changes" comment="02/03/26">
-      <change afterPath="$PROJECT_DIR$/assets/font/PixelizerBold.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/icon/icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/icon/main_icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/sprites/characters/Adam_16x16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/sprites/characters/Alex_16x16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/sprites/characters/Amelia_16x16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/sprites/characters/Bob_16x16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/sprites/coins/coin_tip.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/sprites/coins/coins.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/sprites/interior/Interiors_free_48x48.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/sprites/interior/Room_Builder_free_48x48.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/sprites/interior/my_interior.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiled/Paws_Beans.tiled-project" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiled/Paws_Beans.tiled-session" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiled/tmx/coffee_house.tmx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiled/tmx/stations1.tmx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiled/tmx/stations2.tmx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiled/tmx/stations3.tmx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiled/tsx/Room_Builder_free_48x48.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiled/tsx/my_interior.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/classes/db.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/classes/node.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/colors.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/game.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/globals.py" afterDir="false" />
+    <list default="true" id="8629b07b-f50e-4cc9-9493-b50ab370b30a" name="Changes" comment="Регистрация">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,7 +101,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772435069822</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Регистрация">
+      <option name="closed" value="true" />
+      <created>1772622434475</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1772622434475</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -144,6 +125,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="02/03/26" />
-    <option name="LAST_COMMIT_MESSAGE" value="02/03/26" />
+    <MESSAGE value="Регистрация" />
+    <option name="LAST_COMMIT_MESSAGE" value="Регистрация" />
   </component>
 </project>

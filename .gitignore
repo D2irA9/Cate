@@ -2,3 +2,4 @@
 .idea
 .venv
 /assets
+player_session.json
