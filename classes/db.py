@@ -88,6 +88,20 @@ class DB:
             print(f"Ошибка получения статистики: {e}")
             return []
 
+    def get_coins_player(self, id_player):
+        """Возвращает количество монет игрока или None"""
+        try:
+            query = "SELECT coins FROM players WHERE id = %s"
+            self.cursor.execute(query, (id_player,))
+            result = self.cursor.fetchone()
+            if result:
+                return result['coins']
+            else:
+                return None
+        except Exception as e:
+            print(f"Ошибка получения монет: {e}")
+            return None
+
     def close(self):
         """Закрытие соединения"""
         if self.cursor:

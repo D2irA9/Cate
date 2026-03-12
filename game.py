@@ -1,3 +1,4 @@
+import globals
 from classes.db import db
 from colors import *
 from classes.node import font
