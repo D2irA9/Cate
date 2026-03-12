@@ -411,7 +411,7 @@ while True:
                 print("Заставка завершена")
     else:
         if check_session():
-            game(screen)
+            game(screen, events)
         else:
             screen_login()
 
