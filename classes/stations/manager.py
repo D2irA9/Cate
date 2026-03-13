@@ -2,6 +2,7 @@ import random
 from ..node import ImageButton
 from .order import OrderStation
 from globals import *
+from colors import *
 
 class StationManager:
     """ Менеджер управления станциями """
@@ -10,8 +11,12 @@ class StationManager:
             "order": OrderStation(),
         }
         self.current_station = "order"
-        self.settings_btn = ImageButton("assets/sprites/settings.png",(1140, 10), 2.5)
+        # Настройки
+        self.settings_show = False
+        self.settings_btn = ImageButton("assets/sprites/settings/settings.png",(1140, 10), 2.5)
+        self.volume_btn = ImageButton("assets/sprites/settings/up_volume.png", (350, 250), 4)
 
+        # Музыка
         self.background_sounds = load_sounds_from_folder("assets/sounds/background")
         if self.background_sounds:
             self.sound = random.choice(self.background_sounds)
@@ -19,6 +24,12 @@ class StationManager:
         else:
             self.sound = None
             self.current_channel = None
+
+    def settings_draw(self, screen):
+        """Настройки"""
+        py.draw.rect(screen, SETTINGS_FON, (250, 180, 700, 400))
+        py.draw.rect(screen, CONTOUR, (250, 180, 700, 400), 3)
+        self.volume_btn.draw(screen)
 
     def update(self):
         if not self.background_sounds:
@@ -36,10 +47,10 @@ class StationManager:
         self.update()
         for event in events:
             if event.type == py.KEYDOWN and event.key == py.K_ESCAPE:
-                print("ESC нажата")
+                self.settings_show = not self.settings_show
             if event.type == py.MOUSEBUTTONDOWN and event.button == 1:
                 if self.settings_btn.signal(event.pos):
-                    print("Кнопка настроек нажата!")
+                    self.settings_show = not self.settings_show
         self.stations[self.current_station].events(events)
 
     def draw(self, screen):
@@ -48,3 +59,5 @@ class StationManager:
         current_station = self.stations[self.current_station]
         current_station.draw(screen)
         self.settings_btn.draw(screen)
+        if self.settings_show:
+            self.settings_draw(screen)
