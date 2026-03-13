@@ -8,12 +8,15 @@ import sys, os, random, globals, json, hashlib
 py.init()
 py.mixer.init()
 
-WIDTH, HEIGHT = 1200, 720
-screen = py.display.set_mode((WIDTH, HEIGHT))
+# WIDTH, HEIGHT = 1200, 720
+# screen = py.display.set_mode((WIDTH, HEIGHT))
 py.display.set_caption("Мяу")
 
 icon = py.image.load("assets/icon/icon.png").convert_alpha()
 py.display.set_icon(icon)
+
+clock = py.time.Clock()
+fps = 30
 
 # Файл сессии
 SESSION_FILE = "player_session.json"

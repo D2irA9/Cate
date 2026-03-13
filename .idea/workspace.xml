@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8629b07b-f50e-4cc9-9493-b50ab370b30a" name="Changes" comment="Отображение станции заказов" />
+    <list default="true" id="8629b07b-f50e-4cc9-9493-b50ab370b30a" name="Changes" comment="Отображение станции заказов">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/node.py" beforeDir="false" afterPath="$PROJECT_DIR$/classes/node.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/obj.py" beforeDir="false" afterPath="$PROJECT_DIR$/classes/obj.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/stations/manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/classes/stations/manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/globals.py" beforeDir="false" afterPath="$PROJECT_DIR$/globals.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -134,7 +141,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773309605641</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Отображение станции заказов">
+      <option name="closed" value="true" />
+      <created>1773309767258</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1773309767258</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

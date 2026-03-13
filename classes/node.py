@@ -13,7 +13,7 @@ class Label:
 font = Label()
 
 class Button:
-    """ Кнопки с возможностью отображения текста """
+    """Кнопки с возможностью отображения текста"""
     def __init__(self, width, height, bg_color, pos,
                  text="", text_color=(0,0,0), font_size=24, border_color=(58,58,80), border_width=3):
         self.width = width
@@ -62,6 +62,26 @@ class Button:
 
     def signal(self, pos):
         """ Проверка, находится ли точка внутри кнопки """
+        return self.rect.collidepoint(pos)
+
+class ImageButton:
+    """Кнопка на основе изображения (текстуры)"""
+    def __init__(self, image_path, pos, scale=1.0):
+        self.image_original = py.image.load(image_path).convert_alpha()
+        if scale != 1.0:
+            new_width = int(self.image_original.get_width() * scale)
+            new_height = int(self.image_original.get_height() * scale)
+            self.image = py.transform.scale(self.image_original, (new_width, new_height))
+        else:
+            self.image = self.image_original
+        self.rect = self.image.get_rect(topleft=pos)
+
+    def draw(self, screen):
+        """Отображение кнопки на экране """
+        screen.blit(self.image, self.rect)
+
+    def signal(self, pos):
+        """Для кликов"""
         return self.rect.collidepoint(pos)
 
 class CircleButton:
