@@ -3,13 +3,12 @@ from colors import *
 from globals import *
 from classes.node import font, Button
 from game import game
-import sys, os, random, globals, json, hashlib
+from classes.stations import StationManager
+import sys, random, globals, json, hashlib
 
 py.init()
 py.mixer.init()
 
-# WIDTH, HEIGHT = 1200, 720
-# screen = py.display.set_mode((WIDTH, HEIGHT))
 py.display.set_caption("Мяу")
 
 icon = py.image.load("assets/icon/icon.png").convert_alpha()
@@ -20,6 +19,8 @@ fps = 30
 
 # Файл сессии
 SESSION_FILE = "player_session.json"
+
+station_manager = None
 
 def check_session():
     """Проверка сохранённой сессии"""
@@ -52,22 +53,6 @@ def save_session(id_player, name_player):
 
 MEOW_FOLDER = "assets/sounds/cat/meow"
 PURR_FOLDER = "assets/sounds/cat/purring"
-
-def load_sounds_from_folder(folder):
-    sounds = []
-    if not os.path.exists(folder):
-        print(f"Папка {folder} не найдена!")
-        return sounds
-    for filename in os.listdir(folder):
-        if filename.lower().endswith((".wav", ".ogg", ".mp3")):
-            path = os.path.join(folder, filename)
-            try:
-                sound = py.mixer.Sound(path)
-                sounds.append(sound)
-                print(f"Загружен звук: {filename}")
-            except Exception as e:
-                print(f"Ошибка загрузки {filename}: {e}")
-    return sounds
 
 meow_sounds = load_sounds_from_folder(MEOW_FOLDER)
 purr_sounds = load_sounds_from_folder(PURR_FOLDER)
@@ -414,7 +399,9 @@ while True:
                 print("Заставка завершена")
     else:
         if check_session():
-            game(screen, events)
+            if station_manager is None:
+                station_manager = StationManager()
+            game(screen, events, station_manager)
         else:
             screen_login()
 
