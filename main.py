@@ -20,7 +20,8 @@ fps = 30
 # Файл сессии
 SESSION_FILE = "player_session.json"
 
-station_manager = None
+# Звук/Музыка
+station_manager = StationManager()
 
 def check_session():
     """Проверка сохранённой сессии"""
@@ -51,8 +52,8 @@ def save_session(id_player, name_player):
         print(f"Ошибка сохранения сессии: {e}")
 
 
-MEOW_FOLDER = "assets/sounds/cat/meow"
-PURR_FOLDER = "assets/sounds/cat/purring"
+MEOW_FOLDER = "assets/sounds/sound/cat/meow"
+PURR_FOLDER = "assets/sounds/sound/cat/purring"
 
 meow_sounds = load_sounds_from_folder(MEOW_FOLDER)
 purr_sounds = load_sounds_from_folder(PURR_FOLDER)
