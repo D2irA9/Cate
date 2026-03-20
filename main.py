@@ -2,9 +2,10 @@ from classes.db import db
 from colors import *
 from globals import *
 from classes.node import font, Button
-from game import game
 from classes.stations import StationManager
-import sys, random, globals, json, hashlib
+from classes.sound_manager import SoundManager
+from game import game
+import sys, globals, json, hashlib
 
 py.init()
 py.mixer.init()
@@ -20,8 +21,16 @@ fps = 30
 # Файл сессии
 SESSION_FILE = "player_session.json"
 
-# Звук/Музыка
-station_manager = StationManager()
+# Менеджер звука
+sound_manager = SoundManager()
+
+meow_tracks = sound_manager.get_sfx_tracks("cat/meow")
+purr_tracks = sound_manager.get_sfx_tracks("cat/purring")
+current_channel = None
+next_stage = "meow"
+
+# Менеджер станций
+station_manager = None
 
 def check_session():
     """Проверка сохранённой сессии"""
@@ -50,16 +59,6 @@ def save_session(id_player, name_player):
         globals.name_player = name_player
     except Exception as e:
         print(f"Ошибка сохранения сессии: {e}")
-
-
-MEOW_FOLDER = "assets/sounds/sound/cat/meow"
-PURR_FOLDER = "assets/sounds/sound/cat/purring"
-
-meow_sounds = load_sounds_from_folder(MEOW_FOLDER)
-purr_sounds = load_sounds_from_folder(PURR_FOLDER)
-
-current_channel = None
-next_stage = "meow"
 
 # Подготовка изображения для заставки
 scale_factor = 5
@@ -384,24 +383,24 @@ while True:
 
     if is_saver:
         saver()
-        if (current_channel is None or not current_channel.get_busy()) and meow_sounds and purr_sounds:
+        if (current_channel is None or not current_channel.get_busy()) and meow_tracks and purr_tracks:
             if next_stage == "meow":
-                sound = random.choice(meow_sounds)
-                current_channel = sound.play()
-                next_stage = "purr"
-                print("Играет мяу")
+                current_channel = sound_manager.play_sfx("cat/meow")
+                if current_channel:
+                    next_stage = "purr"
+                    print("Играет мяу")
             elif next_stage == "purr":
-                sound = random.choice(purr_sounds)
-                current_channel = sound.play()
-                next_stage = "end"
-                print("Играет мурлыканье")
+                current_channel = sound_manager.play_sfx("cat/purring")
+                if current_channel:
+                    next_stage = "end"
+                    print("Играет мурлыканье")
             else:
                 is_saver = False
                 print("Заставка завершена")
     else:
         if check_session():
             if station_manager is None:
-                station_manager = StationManager()
+                station_manager = StationManager(sound_manager)
             game(screen, events, station_manager)
         else:
             screen_login()

@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8629b07b-f50e-4cc9-9493-b50ab370b30a" name="Changes" comment="volume.draw">
-      <change afterPath="$PROJECT_DIR$/classes/sound_manager.py" afterDir="false" />
+    <list default="true" id="8629b07b-f50e-4cc9-9493-b50ab370b30a" name="Changes" comment="19/03/26">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/sound_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/classes/sound_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/stations/manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/classes/stations/manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/colors.py" beforeDir="false" afterPath="$PROJECT_DIR$/colors.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/globals.py" beforeDir="false" afterPath="$PROJECT_DIR$/globals.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -25,6 +25,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="QODANA_PROBLEMS_VIEW_TAB" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
@@ -164,7 +167,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773407934604</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="19/03/26">
+      <option name="closed" value="true" />
+      <created>1773910088292</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1773910088292</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -186,6 +197,7 @@
     <MESSAGE value="Отображение станции заказов" />
     <MESSAGE value="+Настройки" />
     <MESSAGE value="volume.draw" />
-    <option name="LAST_COMMIT_MESSAGE" value="volume.draw" />
+    <MESSAGE value="19/03/26" />
+    <option name="LAST_COMMIT_MESSAGE" value="19/03/26" />
   </component>
 </project>

@@ -1,4 +1,7 @@
 import random
+
+from pygame.examples.music_drop_fade import volume
+
 from ..node import ImageButton
 from .order import OrderStation
 from globals import *
@@ -53,101 +56,120 @@ class Slider:
 
 
 class StationManager:
-    def __init__(self):
+    def __init__(self, sound_manager):
         self.stations = {
             "order": OrderStation(),
         }
         self.current_station = "order"
+
+        self.sound_manager = sound_manager
         # Настройки
         self.settings_show = False
         self.settings_btn = ImageButton("assets/sprites/settings/settings.png", (1140, 10), 2.5)
 
-        # Звук – кнопка вкл/выкл
         scale = 4
-        vol_on_img = py.image.load("assets/sprites/settings/up_volume.png").convert_alpha()
-        vol_off_img = py.image.load("assets/sprites/settings/off_volume.png").convert_alpha()
-        w = vol_on_img.get_width() * scale
-        h = vol_on_img.get_height() * scale
-        self.vol_on_scaled = py.transform.scale(vol_on_img, (w, h))
-        self.vol_off_scaled = py.transform.scale(vol_off_img, (w, h))
+        # Кнопка музыки
+        music_on_img = py.image.load("assets/sprites/settings/on_music.png").convert_alpha()
+        music_off_img = py.image.load("assets/sprites/settings/off_music.png").convert_alpha()
+        w = music_on_img.get_width() * scale
+        h = music_on_img.get_height() * scale
+        self.music_on_scaled = py.transform.scale(music_on_img, (w, h))
+        self.music_off_scaled = py.transform.scale(music_off_img, (w, h))
 
-        self.volume_btn = ImageButton("assets/sprites/settings/up_volume.png", (350, 250), 1)
-        self.volume_btn.image = self.vol_on_scaled
-        self.volume_btn.rect = self.volume_btn.image.get_rect(topleft=(350, 250))
-        self.sound_enabled = True
-        self.volume_level = 1.0
+        self.music_btn = ImageButton("assets/sprites/settings/on_music.png", (350, 250), scale)
+        self.music_btn.image = self.music_on_scaled
+        # self.music_btn.rect = self.music_btn.image.get_rect(topleft=(350, 250))
 
-        # Ползунок – загружаем спрайт ручки
+        # Кнопка звуки
+        sfx_on_img = py.image.load("assets/sprites/settings/on_volume.png").convert_alpha()
+        sfx_off_img = py.image.load("assets/sprites/settings/off_volume.png").convert_alpha()
+        w_sfx = sfx_on_img.get_width() * scale
+        h_sfx = sfx_on_img.get_height() * scale
+        self.sfx_on_scaled = py.transform.scale(sfx_on_img, (w_sfx, h_sfx))
+        self.sfx_off_scaled = py.transform.scale(sfx_off_img, (w_sfx, h_sfx))
+
+        self.sfx_btn = ImageButton("assets/sprites/settings/on_volume.png", (350, 320), 1)
+        self.sfx_btn.image = self.sfx_on_scaled
+        self.sfx_btn.rect = self.sfx_btn.image.get_rect(topleft=(350, 320))
+
+        # Ползунки
         slider_handle_img = py.image.load("assets/sprites/settings/slider.png").convert_alpha()
-        # Масштабируем ручку до удобного размера (например, 20x20)
         self.slider_handle = py.transform.scale(slider_handle_img, (20, 20))
-        # Прямоугольник линии (такой же, как будет нарисован в settings_draw)
-        self.slider_line_rect = py.Rect(460, 275, 350, 10)
-        self.slider = Slider(self.slider_line_rect, self.slider_handle, initial_val=self.volume_level)
+        self.music_slider_line = py.Rect(460, 275, 350, 10)
+        self.music_slider = Slider(self.music_slider_line, self.slider_handle, initial_val=self.sound_manager.music_volume)
+        self.sfx_slider_line = py.Rect(460, 345, 350, 10)
+        self.sfx_slider = Slider(self.sfx_slider_line, self.slider_handle, initial_val=self.sound_manager.sfx_volume)
 
-        # Музыка
-        self.background_sounds = load_sounds_from_folder("assets/sounds/music/background")
-        if self.background_sounds:
-            self.sound = random.choice(self.background_sounds)
-            self.current_channel = self.sound.play()
-            self.set_volume()
-        else:
-            self.sound = None
-            self.current_channel = None
+        self.sound_manager.start_music("background")
 
-    def set_volume(self):
-        if self.current_channel:
-            vol = self.volume_level if self.sound_enabled else 0.0
-            self.current_channel.set_volume(vol)
+    # def set_volume(self):
+    #     if self.current_channel:
+    #         vol = self.volume_level if self.sound_enabled else 0.0
+    #         self.current_channel.set_volume(vol)
 
     def settings_draw(self, screen):
         py.draw.rect(screen, SETTINGS_FON, (250, 180, 700, 400))
         py.draw.rect(screen, CONTOUR, (250, 180, 700, 400), 3)
-        self.volume_btn.draw(screen)
-        # Рисуем линию
-        py.draw.rect(screen, CONTOUR, self.slider_line_rect)
-        # Рисуем ручку ползунка
-        self.slider.draw(screen)
+
+        # Музыка
+        self.music_btn.draw(screen)
+        py.draw.rect(screen, CONTOUR, self.music_slider_line)
+        self.music_slider.draw(screen)
+
+        # Звуки
+        self.sfx_btn.draw(screen)
+        py.draw.rect(screen, CONTOUR, self.sfx_slider_line)
+        self.sfx_slider.draw(screen)
 
     def update(self):
-        if not self.background_sounds:
-            return
-        if self.current_channel is None or not self.current_channel.get_busy():
-            if len(self.background_sounds) > 1:
-                choices = [s for s in self.background_sounds if s != self.sound]
-                self.sound = random.choice(choices) if choices else random.choice(self.background_sounds)
-            else:
-                self.sound = random.choice(self.background_sounds)
-            self.current_channel = self.sound.play()
-            self.set_volume()
+        pass
+        # if not self.background_sounds:
+        #     return
+        # if self.current_channel is None or not self.current_channel.get_busy():
+        #     if len(self.background_sounds) > 1:
+        #         choices = [s for s in self.background_sounds if s != self.sound]
+        #         self.sound = random.choice(choices) if choices else random.choice(self.background_sounds)
+        #     else:
+        #         self.sound = random.choice(self.background_sounds)
+        #     self.current_channel = self.sound.play()
+        #     self.set_volume()
 
     def handle_events(self, events):
-        self.update()
+        # Обновление состояния музыки
+        self.sound_manager.update()
 
         if self.settings_show:
-            new_vol = self.slider.update(events)
-            if new_vol != self.volume_level:
-                self.volume_level = new_vol
-                self.set_volume()
+            # Обработка ползунков
+            new_music_vol = self.music_slider.update(events)
+            if new_music_vol != self.sound_manager.music_volume:
+                self.sound_manager.set_music_volume(new_music_vol)
+
+            new_sfx_vol = self.sfx_slider.update(events)
+            if new_sfx_vol != self.sound_manager.sfx_volume:
+                self.sound_manager.set_sfx_volume(new_sfx_vol)
 
         for event in events:
             if event.type == py.KEYDOWN and event.key == py.K_ESCAPE:
                 self.settings_show = not self.settings_show
+
             if event.type == py.MOUSEBUTTONDOWN and event.button == 1:
                 if self.settings_btn.signal(event.pos):
                     self.settings_show = not self.settings_show
-                if self.settings_show and self.volume_btn.signal(event.pos):
-                    self.sound_enabled = not self.sound_enabled
-                    if self.sound_enabled:
-                        self.volume_btn.image = self.vol_on_scaled
-                    else:
-                        self.volume_btn.image = self.vol_off_scaled
-                    self.set_volume()
+
+                if self.settings_show:
+                    # Кнопка музыки
+                    if self.music_btn.signal(event.pos):
+                        enabled = self.sound_manager.toggle_music()
+                        self.music_btn.image = self.music_on_scaled if enabled else self.music_off_scaled
+                    # Кнопка звуков
+                    if self.sfx_btn.signal(event.pos):
+                        enabled = self.sound_manager.toggle_sfx()
+                        self.sfx_btn.image = self.sfx_on_scaled if enabled else self.sfx_off_scaled
+
         self.stations[self.current_station].events(events)
 
     def draw(self, screen):
-        current_station = self.stations[self.current_station]
-        current_station.draw(screen)
+        self.stations[self.current_station].draw(screen)
         self.settings_btn.draw(screen)
         if self.settings_show:
             self.settings_draw(screen)
