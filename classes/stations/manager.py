@@ -1,8 +1,4 @@
-import random
-
-from pygame.examples.music_drop_fade import volume
-
-from ..node import ImageButton
+from ..node import ImageButton, font
 from .order import OrderStation
 from globals import *
 from colors import *
@@ -36,7 +32,6 @@ class Slider:
                 if self.handle_rect().collidepoint(event.pos):
                     self.grabbed = True
                 elif self.line_rect.collidepoint(event.pos):
-                    # Клик на линии – сразу перемещаем ручку
                     rel_x = event.pos[0] - self.line_rect.x
                     self.val = rel_x / self.line_rect.width
                     self.val = max(self.min_val, min(self.max_val, self.val))
@@ -50,7 +45,6 @@ class Slider:
         return self.val
 
     def draw(self, screen):
-        """Рисует только ручку (линия уже нарисована отдельно)"""
         x, y = self.get_handle_pos()
         screen.blit(self.handle_sprite, (x - self.handle_width//2, y - self.handle_height//2))
 
@@ -76,11 +70,11 @@ class StationManager:
         self.music_on_scaled = py.transform.scale(music_on_img, (w, h))
         self.music_off_scaled = py.transform.scale(music_off_img, (w, h))
 
-        self.music_btn = ImageButton("assets/sprites/settings/on_music.png", (350, 250), scale)
+        self.music_btn = ImageButton("assets/sprites/settings/on_music.png", (400, 280), 1)
         self.music_btn.image = self.music_on_scaled
-        # self.music_btn.rect = self.music_btn.image.get_rect(topleft=(350, 250))
+        self.music_btn.rect = self.music_btn.image.get_rect(topleft=(400, 280))
 
-        # Кнопка звуки
+        # Кнопка звуков
         sfx_on_img = py.image.load("assets/sprites/settings/on_volume.png").convert_alpha()
         sfx_off_img = py.image.load("assets/sprites/settings/off_volume.png").convert_alpha()
         w_sfx = sfx_on_img.get_width() * scale
@@ -88,28 +82,30 @@ class StationManager:
         self.sfx_on_scaled = py.transform.scale(sfx_on_img, (w_sfx, h_sfx))
         self.sfx_off_scaled = py.transform.scale(sfx_off_img, (w_sfx, h_sfx))
 
-        self.sfx_btn = ImageButton("assets/sprites/settings/on_volume.png", (350, 320), 1)
+        self.sfx_btn = ImageButton("assets/sprites/settings/on_volume.png", (400, 350), 1)
         self.sfx_btn.image = self.sfx_on_scaled
-        self.sfx_btn.rect = self.sfx_btn.image.get_rect(topleft=(350, 320))
+        self.sfx_btn.rect = self.sfx_btn.image.get_rect(topleft=(400, 350))
 
         # Ползунки
         slider_handle_img = py.image.load("assets/sprites/settings/slider.png").convert_alpha()
         self.slider_handle = py.transform.scale(slider_handle_img, (20, 20))
-        self.music_slider_line = py.Rect(460, 275, 350, 10)
+        self.music_slider_line = py.Rect(460, 305, 350, 10)
         self.music_slider = Slider(self.music_slider_line, self.slider_handle, initial_val=self.sound_manager.music_volume)
-        self.sfx_slider_line = py.Rect(460, 345, 350, 10)
+        self.sfx_slider_line = py.Rect(460, 375, 350, 10)
         self.sfx_slider = Slider(self.sfx_slider_line, self.slider_handle, initial_val=self.sound_manager.sfx_volume)
+        self.music_btn.image = self.music_on_scaled if self.sound_manager.music_enabled else self.music_off_scaled
+        self.sfx_btn.image = self.sfx_on_scaled if self.sound_manager.sfx_enabled else self.sfx_off_scaled
 
         self.sound_manager.start_music("background")
-
-    # def set_volume(self):
-    #     if self.current_channel:
-    #         vol = self.volume_level if self.sound_enabled else 0.0
-    #         self.current_channel.set_volume(vol)
 
     def settings_draw(self, screen):
         py.draw.rect(screen, SETTINGS_FON, (250, 180, 700, 400))
         py.draw.rect(screen, CONTOUR, (250, 180, 700, 400), 3)
+
+        # Текст
+        text_setting = font.text_ret(size=42, text='Настройки', color=GRAY)
+        text_rect = text_setting.get_rect()
+        screen.blit(text_setting, ((1200 // 2) - text_rect.centerx, 230))
 
         # Музыка
         self.music_btn.draw(screen)
@@ -120,19 +116,6 @@ class StationManager:
         self.sfx_btn.draw(screen)
         py.draw.rect(screen, CONTOUR, self.sfx_slider_line)
         self.sfx_slider.draw(screen)
-
-    def update(self):
-        pass
-        # if not self.background_sounds:
-        #     return
-        # if self.current_channel is None or not self.current_channel.get_busy():
-        #     if len(self.background_sounds) > 1:
-        #         choices = [s for s in self.background_sounds if s != self.sound]
-        #         self.sound = random.choice(choices) if choices else random.choice(self.background_sounds)
-        #     else:
-        #         self.sound = random.choice(self.background_sounds)
-        #     self.current_channel = self.sound.play()
-        #     self.set_volume()
 
     def handle_events(self, events):
         # Обновление состояния музыки
@@ -161,10 +144,12 @@ class StationManager:
                     if self.music_btn.signal(event.pos):
                         enabled = self.sound_manager.toggle_music()
                         self.music_btn.image = self.music_on_scaled if enabled else self.music_off_scaled
-                    # Кнопка звуков
+                        self.music_btn.rect = self.music_btn.image.get_rect(topleft=(400, 280))
+
                     if self.sfx_btn.signal(event.pos):
                         enabled = self.sound_manager.toggle_sfx()
                         self.sfx_btn.image = self.sfx_on_scaled if enabled else self.sfx_off_scaled
+                        self.sfx_btn.rect = self.sfx_btn.image.get_rect(topleft=(400, 350))
 
         self.stations[self.current_station].events(events)
 
