@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8629b07b-f50e-4cc9-9493-b50ab370b30a" name="Changes" comment="отрисовка игрока">
+    <list default="true" id="8629b07b-f50e-4cc9-9493-b50ab370b30a" name="Changes" comment="отрисовка нпс">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/character.py" beforeDir="false" afterPath="$PROJECT_DIR$/classes/character.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/stations/order.py" beforeDir="false" afterPath="$PROJECT_DIR$/classes/stations/order.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -34,18 +35,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Python.db.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Other/code/python/Cate/classes&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.db.executor": "Run",
+    "Python.main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Other/code/python/Cate/classes"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Other\code\python\Cate\classes" />
@@ -204,7 +205,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774351573317</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="отрисовка нпс">
+      <option name="closed" value="true" />
+      <created>1774368833399</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1774368833399</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -231,6 +240,7 @@
     <MESSAGE value="звук/музыка на месте" />
     <MESSAGE value="кнопка выхода, кнопка карточек, отображение станции" />
     <MESSAGE value="отрисовка игрока" />
-    <option name="LAST_COMMIT_MESSAGE" value="отрисовка игрока" />
+    <MESSAGE value="отрисовка нпс" />
+    <option name="LAST_COMMIT_MESSAGE" value="отрисовка нпс" />
   </component>
 </project>

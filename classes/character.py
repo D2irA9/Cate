@@ -27,6 +27,7 @@ class Character(py.sprite.Sprite):
         self.is_moving = False
         if path:
             self.set_path(path)
+        self.path_finished = False
 
     def _load_animations(self) -> dict:
         """Загружает все анимации из спрайт-листа"""
@@ -62,6 +63,7 @@ class Character(py.sprite.Sprite):
         """Установить новый путь"""
         self.path = [py.math.Vector2(p) for p in new_path]
         self.current_path_index = 0
+        self.path_finished = False
         if self.path:
             self.target_pos = self.path[0]
             self.is_moving = True
@@ -103,6 +105,7 @@ class Character(py.sprite.Sprite):
         else:
             self.is_moving = False
             self.target_pos = None
+            self.path_finished = True
             if 'walk' in self.current_animation:
                 self.current_animation = self.current_animation.replace('walk', 'idle')
 
@@ -138,3 +141,7 @@ class Character(py.sprite.Sprite):
     def is_clicked(self, pos: Tuple[int, int]) -> bool:
         """Возвращает True если кликнули по персонажу"""
         return self.rect.collidepoint(pos)
+
+    def is_path_finished(self) -> bool:
+        """Возвращает True, если персонаж завершил движение по пути"""
+        return self.path_finished
