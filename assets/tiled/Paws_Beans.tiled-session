@@ -7,6 +7,9 @@
     "expandedProjectPaths": [
     ],
     "fileStates": {
+        "C:/Other/code/python/coffee_house/assets/tiled/tsx/my_interior.tsx": {
+            "scaleInDock": 1
+        },
         "maps/coffee_house.tmx": {
             "expandedObjectLayers": [
                 6,
@@ -23,7 +26,7 @@
             "scale": 0.75,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 588.6666666666665,
+                "x": 599.3333333333334,
                 "y": 359.33333333333326
             }
         },
@@ -39,24 +42,24 @@
             "scale": 0.7449583333333333,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 600.0335589238772,
-                "y": 359.7516639633089
+                "x": 599.3623804463338,
+                "y": 360.4228424408525
             }
         },
         "tmx/stations2.tmx": {
             "scale": 0.9420833333333333,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 599.734630694383,
-                "y": 359.84077841662975
+                "x": 600.2653693056169,
+                "y": 360.3715170278638
             }
         },
         "tmx/stations3.tmx": {
             "scale": 0.9420833333333333,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 599.734630694383,
-                "y": 359.84077841662975
+                "x": 600.2653693056169,
+                "y": 360.3715170278638
             }
         },
         "tsx/Room_Builder_free_48x48.tsx": {

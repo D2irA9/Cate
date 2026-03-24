@@ -4,14 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8629b07b-f50e-4cc9-9493-b50ab370b30a" name="Changes" comment="звук/музыка на месте">
-      <change afterPath="$PROJECT_DIR$/classes/tiled.py" afterDir="false" />
+    <list default="true" id="8629b07b-f50e-4cc9-9493-b50ab370b30a" name="Changes" comment="кнопка выхода, кнопка карточек, отображение станции">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/sound_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/classes/sound_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/sprites/characters/Adam_16x16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/sprites/characters/Alex_16x16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/sprites/characters/Amelia_16x16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/sprites/characters/Bob_16x16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/tiled/Paws_Beans.tiled-session" beforeDir="false" afterPath="$PROJECT_DIR$/assets/tiled/Paws_Beans.tiled-session" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/character.py" beforeDir="false" afterPath="$PROJECT_DIR$/classes/character.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/stations/manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/classes/stations/manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/stations/order.py" beforeDir="false" afterPath="$PROJECT_DIR$/classes/stations/order.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/globals.py" beforeDir="false" afterPath="$PROJECT_DIR$/globals.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/tiled.py" beforeDir="false" afterPath="$PROJECT_DIR$/classes/tiled.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -193,7 +196,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774086831309</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="кнопка выхода, кнопка карточек, отображение станции">
+      <option name="closed" value="true" />
+      <created>1774348252604</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1774348252604</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -218,6 +229,7 @@
     <MESSAGE value="19/03/26" />
     <MESSAGE value="звук в заставке" />
     <MESSAGE value="звук/музыка на месте" />
-    <option name="LAST_COMMIT_MESSAGE" value="звук/музыка на месте" />
+    <MESSAGE value="кнопка выхода, кнопка карточек, отображение станции" />
+    <option name="LAST_COMMIT_MESSAGE" value="кнопка выхода, кнопка карточек, отображение станции" />
   </component>
 </project>

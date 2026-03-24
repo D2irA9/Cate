@@ -15,32 +15,48 @@ class Map:
     def __init__(self, tmx_path, tile_size, scale):
         self.tile_size = tile_size
         self.scale = scale
-        self.tile_group = py.sprite.Group()
-        self.object_group = py.sprite.Group()
+        self.layers = []
+        self.layer_names = []
         self.tmx_path = tmx_path
 
     def load_map(self):
-        """ Загрузка карты """
-        map = load_pygame(self.tmx_path)
+        """Загрузка карты с разделением по слоям"""
+        tmx_map = load_pygame(self.tmx_path)
+        for layer in tmx_map.visible_layers:
+            group = py.sprite.Group()
+            layer_name = layer.name
 
-        # Загрузка Тайлов
-        for layer in map.visible_layers:
             if hasattr(layer, 'data'):
                 for x, y, surf in layer.tiles():
-                    pos = (x * self.tile_size * self.scale, y * self.tile_size * self.scale)
-                    Tile(pos=pos, surf = surf, groups=self.tile_group, scale=self.scale, tile_size=self.tile_size)
-        # Загрузка объектов
-        for obj in map.objects:
-            pos = (obj.x * self.scale, obj.y * self.scale)
-            if obj.image:
-                    Tile(pos=pos, surf = obj.image, groups=self.object_group, scale=self.scale, tile_size=self.tile_size)
+                    if surf:
+                        pos = (x * self.tile_size * self.scale, y * self.tile_size * self.scale)
+                        Tile(pos, surf, group, self.scale, self.tile_size)
+            else:
+                for obj in layer:
+                    if obj.image:
+                        pos = (obj.x * self.scale, obj.y * self.scale)
+                        Tile(pos, obj.image, group, self.scale, self.tile_size)
 
-    def draw(self, screen):
-        """ Отрисовка всей карты """
+            self.layers.append(group)
+            self.layer_names.append(layer_name)
 
-        # Tайлы
-        for tile in self.tile_group:
-            screen.blit(tile.image, (tile.rect.x, tile.rect.y))
-        # Объекты
-        for obj in self.object_group:
-            screen.blit(obj.image, (obj.rect.x, obj.rect.y))
+    def draw_layer(self, screen, layer_index):
+        """Отрисовка одного слоя по индексу"""
+        if 0 <= layer_index < len(self.layers):
+            for tile in self.layers[layer_index]:
+                screen.blit(tile.image, (tile.rect.x, tile.rect.y))
+
+    def draw_all(self, screen):
+        """Отрисовка всех слоёв подряд"""
+        for layer in self.layers:
+            for tile in layer:
+                screen.blit(tile.image, (tile.rect.x, tile.rect.y))
+
+    def draw_between(self, screen, split_index):
+        """
+        Рисует слои до split_index, затем можно рисовать персонажа,
+        затем оставшиеся слои.
+        split_index – индекс слоя, после которого будет вставлен персонаж.
+        """
+        for i in range(split_index):
+            self.draw_layer(screen, i)

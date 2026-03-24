@@ -60,7 +60,7 @@ class StationManager:
         self.logout_callback = logout_callback
         # Настройки
         self.settings_show = False
-        self.settings_btn = ImageButton("assets/sprites/settings/settings.png", (1140, 10), 2.5)
+        self.settings_btn = ImageButton("assets/sprites/settings/settings.png", (1130, 0), 2.5)
 
         scale = 4
         # Кнопка музыки

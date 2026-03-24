@@ -5,7 +5,7 @@ class Character(py.sprite.Sprite):
     """Класс Персонажей"""
     SPRITE_WIDTH = 16
     SPRITE_HEIGHT = 32
-    FRAME_DELAY = 100
+    FRAME_DELAY = 150
     DEFAULT_SPEED = 2
 
     def __init__(self, scale: int, pos: Tuple[int, int], sprite_path: str, path: Optional[List[Tuple[int, int]]] = None):
