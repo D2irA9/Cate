@@ -365,6 +365,25 @@ def screen_registration():
 
     return success
 
+def logout():
+    """Выход из аккаунта"""
+    global station_manager, is_saver, next_stage, current_channel
+    # Удаляем файл сессии
+    try:
+        if os.path.exists(SESSION_FILE):
+            os.remove(SESSION_FILE)
+    except Exception as e:
+        print(f"Ошибка удаления сессии: {e}")
+    # Сбрасываем глобальные переменные
+    globals.id_player = None
+    globals.name_player = None
+    # Сбрасываем менеджер станций (чтобы при следующем входе создался новый)
+    station_manager = None
+    # Возвращаем заставку в исходное состояние
+    is_saver = True
+    next_stage = "meow"
+    current_channel = None
+
 db.connect()
 
 while True:
@@ -400,7 +419,7 @@ while True:
     else:
         if check_session():
             if station_manager is None:
-                station_manager = StationManager(sound_manager)
+                station_manager = StationManager(sound_manager, logout)
             game(screen, events, station_manager)
         else:
             screen_login()

@@ -50,13 +50,14 @@ class Slider:
 
 
 class StationManager:
-    def __init__(self, sound_manager):
+    def __init__(self, sound_manager, logout_callback):
         self.stations = {
             "order": OrderStation(),
         }
         self.current_station = "order"
 
         self.sound_manager = sound_manager
+        self.logout_callback = logout_callback
         # Настройки
         self.settings_show = False
         self.settings_btn = ImageButton("assets/sprites/settings/settings.png", (1140, 10), 2.5)
@@ -98,14 +99,19 @@ class StationManager:
 
         self.sound_manager.start_music("background")
 
+        # Кнопка выход
+        self.exit_btn = ImageButton("assets/sprites/settings/exit.png", (1200 // 2 - 100, 450), 3)
+
+        # Кнопка карточек
+        self.cards_btn = ImageButton("assets/sprites/settings/cards.png", (1200 // 2 + 30, 450), 3)
+
     def settings_draw(self, screen):
         py.draw.rect(screen, SETTINGS_FON, (250, 180, 700, 400))
         py.draw.rect(screen, CONTOUR, (250, 180, 700, 400), 3)
 
-        # Текст
+        # Текст Настройки
         text_setting = font.text_ret(size=42, text='Настройки', color=GRAY)
-        text_rect = text_setting.get_rect()
-        screen.blit(text_setting, ((1200 // 2) - text_rect.centerx, 230))
+        screen.blit(text_setting, (506, 230))
 
         # Музыка
         self.music_btn.draw(screen)
@@ -116,6 +122,15 @@ class StationManager:
         self.sfx_btn.draw(screen)
         py.draw.rect(screen, CONTOUR, self.sfx_slider_line)
         self.sfx_slider.draw(screen)
+
+        # Кнопка выход
+        self.exit_btn.draw(screen)
+        # Кнопка карточек
+        self.cards_btn.draw(screen)
+
+        # Текст версии
+        text_version = font.text_ret(size=25, text=f'v {version}', color=GRAY)
+        screen.blit(text_version, (890, 550))
 
     def handle_events(self, events):
         # Обновление состояния музыки
@@ -145,11 +160,17 @@ class StationManager:
                         enabled = self.sound_manager.toggle_music()
                         self.music_btn.image = self.music_on_scaled if enabled else self.music_off_scaled
                         self.music_btn.rect = self.music_btn.image.get_rect(topleft=(400, 280))
-
+                    # Кнопка звука
                     if self.sfx_btn.signal(event.pos):
                         enabled = self.sound_manager.toggle_sfx()
                         self.sfx_btn.image = self.sfx_on_scaled if enabled else self.sfx_off_scaled
                         self.sfx_btn.rect = self.sfx_btn.image.get_rect(topleft=(400, 350))
+                    # Кнопка выхода их аккаунта
+                    elif self.exit_btn.signal(event.pos):
+                        self.logout_callback()
+                        self.settings_show = False
+                    elif self.cards_btn.signal(event.pos):
+                        print("Карточки")
 
         self.stations[self.current_station].events(events)
 

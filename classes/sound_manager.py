@@ -70,7 +70,7 @@ class SoundManager:
     def _play_music(self):
         if not self.current_music or not self.music_channel:
             return
-        self.music_channel.play(self.current_music, loops=-1)
+        self.music_channel.play(self.current_music)
         self._apply_music_volume()
 
     def _apply_music_volume(self):
