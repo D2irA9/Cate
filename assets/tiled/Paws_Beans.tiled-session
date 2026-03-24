@@ -24,9 +24,9 @@
         },
         "tmx/coffee_house.tmx": {
             "scale": 0.75,
-            "selectedLayer": 2,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 599.3333333333334,
+                "x": 588.6666666666665,
                 "y": 359.33333333333326
             }
         },
