@@ -1,4 +1,3 @@
-from classes.db import db
 from colors import *
 from globals import *
 from classes.node import font, Button

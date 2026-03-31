@@ -1,5 +1,7 @@
 import pygame as py, os
+from classes.db import DB
 
+db = DB()
 py.init()
 
 WIDTH, HEIGHT = 1200, 720

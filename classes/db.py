@@ -102,6 +102,20 @@ class DB:
             print(f"Ошибка получения монет: {e}")
             return None
 
+    def get_player_level(self, id_player):
+        """Получает уровень игрока по id"""
+        try:
+            query = "SELECT id_level FROM players WHERE id = %s"
+            self.cursor.execute(query, (id_player,))
+            result = self.cursor.fetchone()
+            if result:
+                return result['id_level']
+            else:
+                return None
+        except Exception as e:
+            print(f"Ошибка получения монет: {e}")
+            return None
+
     def close(self):
         """Закрытие соединения"""
         if self.cursor:
@@ -110,6 +124,3 @@ class DB:
             self.connection.close()
         print("Соединение закрыто")
         print("=" * 40)
-
-
-db = DB()
