@@ -68,7 +68,7 @@ class TicketsOrder:
         milk_variant = random.choice(self.milk_variants) if self.milk_variants else None
         syrup = random.choice(self.syrups) if self.syrups else None
 
-        order = {
+        self.current_order = {
             'cup': cup,
             'espresso': {
                 'id': espresso['id'] if espresso else None,
@@ -93,7 +93,7 @@ class TicketsOrder:
         print(f"  Молоко: {milk_qty} порций, тип: {milk['name'] if milk else 'нет'}, температура: {milk_variant['name'] if milk_variant else 'обычное'}")
         print(f"  Сироп: {syrup['name'] if syrup else 'нет'}")
 
-        return order
+        return self.current_order
 
     def draw_order(self, screen):
         """Пока не реализовано, просто заглушка"""

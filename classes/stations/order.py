@@ -83,6 +83,11 @@ class OrderStation(Station):
             self.interact_btn.draw(screen)
         if self.callout_show:
             screen.blit(self.callout_img, self.callout_rect)
+            if self.order.current_order:
+                cup_letter = self.order.current_order['cup']['cup']
+                cup_text = font.text_ret(40, cup_letter, BLACK)
+                text_rect = cup_text.get_rect(center=self.callout_rect.center)
+                screen.blit(cup_text, text_rect)
 
         # Рисуем верхние слои
         for i in range(self.split_nps, len(self.map.layers)):
