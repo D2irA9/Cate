@@ -8,7 +8,6 @@ class TicketsOrder:
         self.espresso_types = []
         self.milk_types = []
         self.syrups = []
-        self.milk_variants = []
 
         self._load_data()
         self.current_order = None
@@ -32,13 +31,6 @@ class TicketsOrder:
         # Сиропы
         db.cursor.execute("SELECT id, name FROM ingredients WHERE type='syrup' AND level <= %s", (self.player_level,))
         self.syrups = db.cursor.fetchall()
-
-        # Варианты молока (температура) – если таблица есть
-        try:
-            db.cursor.execute("SELECT id, name, temperature, symbol FROM milk_variants")
-            self.milk_variants = db.cursor.fetchall()
-        except:
-            self.milk_variants = []
 
     def generate_random_order(self):
         """Генерирует случайный заказ из доступных ингредиентов"""
@@ -65,8 +57,10 @@ class TicketsOrder:
         # Выбор случайных ингредиентов
         espresso = random.choice(self.espresso_types) if self.espresso_types else None
         milk = random.choice(self.milk_types) if self.milk_types else None
-        milk_variant = random.choice(self.milk_variants) if self.milk_variants else None
         syrup = random.choice(self.syrups) if self.syrups else None
+
+        # Генерация температуры молока (горячее/холодное)
+        milk_temperature = random.choice(["горячее", "холодное"])
 
         self.current_order = {
             'cup': cup,
@@ -79,7 +73,7 @@ class TicketsOrder:
                 'id': milk['id'] if milk else None,
                 'type': milk['name'] if milk else 'нет',
                 'portions': milk_qty,
-                'variant': milk_variant
+                'temperature': milk_temperature
             },
             'syrup': {
                 'id': syrup['id'] if syrup else None,
@@ -90,7 +84,7 @@ class TicketsOrder:
         # Вывод в консоль
         print(f"Сгенерирован заказ: размер {cup['cup']}, емкость {capacity}")
         print(f"  Эспрессо: {esp_qty} порций, тип: {espresso['name'] if espresso else 'нет'}")
-        print(f"  Молоко: {milk_qty} порций, тип: {milk['name'] if milk else 'нет'}, температура: {milk_variant['name'] if milk_variant else 'обычное'}")
+        print(f"  Молоко: {milk_qty} порций, тип: {milk['name'] if milk else 'нет'}, температура: {milk_temperature}")
         print(f"  Сироп: {syrup['name'] if syrup else 'нет'}")
 
         return self.current_order

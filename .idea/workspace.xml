@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8629b07b-f50e-4cc9-9493-b50ab370b30a" name="Changes" comment="не правильно загруженный звук">
-      <change beforePath="$PROJECT_DIR$/classes/stations/manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/classes/stations/manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/stations/order.py" beforeDir="false" afterPath="$PROJECT_DIR$/classes/stations/order.py" afterDir="false" />
+    <list default="true" id="8629b07b-f50e-4cc9-9493-b50ab370b30a" name="Changes" comment="звук pop">
+      <change beforePath="$PROJECT_DIR$/classes/obj.py" beforeDir="false" afterPath="$PROJECT_DIR$/classes/obj.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -256,7 +255,15 @@
       <option name="project" value="LOCAL" />
       <updated>1775216576078</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="звук pop">
+      <option name="closed" value="true" />
+      <created>1775216796193</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1775216796193</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -288,6 +295,7 @@
     <MESSAGE value="Отображение облако" />
     <MESSAGE value="буква стакана" />
     <MESSAGE value="не правильно загруженный звук" />
-    <option name="LAST_COMMIT_MESSAGE" value="не правильно загруженный звук" />
+    <MESSAGE value="звук pop" />
+    <option name="LAST_COMMIT_MESSAGE" value="звук pop" />
   </component>
 </project>
