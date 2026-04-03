@@ -21,6 +21,7 @@ class OrderStation(Station):
         self.nps = None
         self._load_random_npc()
         self.split_nps = 4
+        self.npc_sound = py.mixer.Sound("assets/sounds/sound/nps/pop.mp3")
 
         self.interact_btn = ImageButton("assets/sprites/characters/nps/interactive/place_order.png", (545, 90), 3)
         self.interact_btn_show = False
@@ -33,6 +34,35 @@ class OrderStation(Station):
         self.callout_img = py.transform.scale(self.callout_img, (self.callout_img.get_width() * 3, self.callout_img.get_height() * 3))
         self.callout_rect = self.callout_img.get_rect(topleft=(545, 90))
         self.callout_show = False
+
+        # Анимация показа
+        self.animation_index = -1
+        self.animation_timer = 0
+
+        # Ингредиенты
+        self.espresso_sprites = self._load_sprites("assets/sprites/ingredients/espresso")
+        self.milk_sprites = self._load_sprites("assets/sprites/ingredients/milk")
+        self.syrup_sprites = self._load_sprites("assets/sprites/ingredients/syrup")
+
+    def _play_npc_sound(self):
+        """Проигрывает фиксированный звук NPC"""
+        if self.npc_sound:
+            self.npc_sound.play()
+
+    def _load_sprites(self, folder):
+        """Загружает всех png из папки и возвращается словарь"""
+        sprites = {}
+        if not os.path.exists(folder):
+            return sprites
+
+        for filename in os.listdir(folder):
+            if filename.lower().endswith(".png"):
+                name = os.path.splitext(filename)[0]
+                path = os.path.join(folder, filename)
+                img = py.image.load(path).convert_alpha()
+                img = py.transform.scale(img, (70, 70))
+                sprites[name] = img
+        return sprites
 
     def _load_random_npc(self):
         """Загружает случайного NPC"""
@@ -69,11 +99,56 @@ class OrderStation(Station):
         self.npc.update()
         self.npc.draw(screen)
 
-        # Отображение кнопки
-        if self.npc.is_path_finished():
-            self.interact_btn_show = True
+        now = py.time.get_ticks()
 
-        # Отображение кнопки или callout
+        if self.callout_show and self.order.current_order:
+            if self.animation_index == -1:
+                self.animation_index = 0
+                self.animation_timer = now + 1000
+                self._play_npc_sound()
+            elif self.animation_timer and now > self.animation_timer:
+                self.animation_index += 1
+                self._play_npc_sound()
+                if self.animation_index > 3:
+                    self.callout_show = False
+                    self.animation_index = -1
+                    self.animation_timer = 0
+                else:
+                    self.animation_timer = now + 1000
+
+            # Отрисовка текущего элемента
+            screen.blit(self.callout_img, self.callout_rect)
+            order = self.order.current_order
+
+            if self.animation_index == 0:
+                # Чашка
+                cup_letter = order['cup']['cup']
+                cup_text = font.text_ret(36, cup_letter, BLACK)
+                cup_rect = cup_text.get_rect(center=self.callout_rect.center)
+                screen.blit(cup_text, cup_rect)
+            elif self.animation_index == 1:
+                # Молоко
+                milk_name = order['milk']['type']
+                if milk_name in self.milk_sprites:
+                    milk_icon = self.milk_sprites[milk_name]
+                    milk_rect = milk_icon.get_rect(center=(self.callout_rect.centerx, 130))
+                    screen.blit(milk_icon, milk_rect)
+            elif self.animation_index == 2:
+                # Эспрессо
+                espresso_name = order['espresso']['type']
+                if espresso_name in self.espresso_sprites:
+                    espresso_icon = self.espresso_sprites[espresso_name]
+                    espresso_rect = espresso_icon.get_rect(center=(self.callout_rect.centerx, 130))
+                    screen.blit(espresso_icon, espresso_rect)
+            elif self.animation_index == 3:
+                # Сироп (если есть)
+                syrup_name = order['syrup']['name']
+                if syrup_name in self.syrup_sprites:
+                    syrup_icon = self.syrup_sprites[syrup_name]
+                    syrup_rect = syrup_icon.get_rect(center=(self.callout_rect.centerx, 130))
+                    screen.blit(syrup_icon, syrup_rect)
+
+        # Отображение кнопки
         if not self.callout_show and self.npc.is_path_finished():
             self.interact_btn_show = True
         else:
@@ -81,13 +156,6 @@ class OrderStation(Station):
 
         if self.interact_btn_show:
             self.interact_btn.draw(screen)
-        if self.callout_show:
-            screen.blit(self.callout_img, self.callout_rect)
-            if self.order.current_order:
-                cup_letter = self.order.current_order['cup']['cup']
-                cup_text = font.text_ret(40, cup_letter, BLACK)
-                text_rect = cup_text.get_rect(center=self.callout_rect.center)
-                screen.blit(cup_text, text_rect)
 
         # Рисуем верхние слои
         for i in range(self.split_nps, len(self.map.layers)):
