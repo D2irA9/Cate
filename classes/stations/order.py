@@ -8,7 +8,8 @@ from ..obj import TicketsOrder
 import os, random
 
 class OrderStation(Station):
-    def __init__(self):
+    def __init__(self, sound_manager):
+        self.sound_manager = sound_manager
         super().__init__("Заказы", BLACK, GREEN)
         self.map = Map('assets/tiled/tmx/coffee_house.tmx', 48, 1)
         self.map_loaded = False
@@ -45,8 +46,10 @@ class OrderStation(Station):
         self.syrup_sprites = self._load_sprites("assets/sprites/ingredients/syrup")
 
     def _play_npc_sound(self):
-        """Проигрывает фиксированный звук NPC"""
-        if self.npc_sound:
+        """Проигрывает звук громкости SFX"""
+        if self.sound_manager.sfx_enabled:
+            vol = self.sound_manager.sfx_volume
+            self.npc_sound.set_volume(vol)
             self.npc_sound.play()
 
     def _load_sprites(self, folder):

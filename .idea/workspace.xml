@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8629b07b-f50e-4cc9-9493-b50ab370b30a" name="Changes" comment="буква стакана">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="8629b07b-f50e-4cc9-9493-b50ab370b30a" name="Changes" comment="не правильно загруженный звук">
+      <change beforePath="$PROJECT_DIR$/classes/stations/manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/classes/stations/manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/stations/order.py" beforeDir="false" afterPath="$PROJECT_DIR$/classes/stations/order.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -248,7 +248,15 @@
       <option name="project" value="LOCAL" />
       <updated>1775038723475</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="не правильно загруженный звук">
+      <option name="closed" value="true" />
+      <created>1775216576078</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1775216576078</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -279,6 +287,7 @@
     <MESSAGE value="отрисовка кнопки для получения заказа" />
     <MESSAGE value="Отображение облако" />
     <MESSAGE value="буква стакана" />
-    <option name="LAST_COMMIT_MESSAGE" value="буква стакана" />
+    <MESSAGE value="не правильно загруженный звук" />
+    <option name="LAST_COMMIT_MESSAGE" value="не правильно загруженный звук" />
   </component>
 </project>

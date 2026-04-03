@@ -52,7 +52,7 @@ class Slider:
 class StationManager:
     def __init__(self, sound_manager, logout_callback):
         self.stations = {
-            "order": OrderStation(),
+            "order": OrderStation(sound_manager),
         }
         self.current_station = "order"
 
