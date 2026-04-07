@@ -2,6 +2,7 @@ from ..node import ImageButton, font
 from .order import OrderStation
 from globals import *
 from colors import *
+from ..obj import TicketsOrder
 
 class Slider:
     def __init__(self, line_rect, handle_sprite, initial_val=1.0):
@@ -51,8 +52,9 @@ class Slider:
 
 class StationManager:
     def __init__(self, sound_manager, logout_callback):
+        self.order = TicketsOrder()
         self.stations = {
-            "order": OrderStation(sound_manager),
+            "order": OrderStation(sound_manager, self.order),
         }
         self.current_station = "order"
 
@@ -146,6 +148,7 @@ class StationManager:
             if new_sfx_vol != self.sound_manager.sfx_volume:
                 self.sound_manager.set_sfx_volume(new_sfx_vol)
 
+        self.order.events(events)
         for event in events:
             if event.type == py.KEYDOWN and event.key == py.K_ESCAPE:
                 self.settings_show = not self.settings_show
@@ -175,7 +178,9 @@ class StationManager:
         self.stations[self.current_station].events(events)
 
     def draw(self, screen):
+
         self.stations[self.current_station].draw(screen)
         self.settings_btn.draw(screen)
+        self.order.draw(screen)
         if self.settings_show:
             self.settings_draw(screen)

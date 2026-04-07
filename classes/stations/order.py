@@ -4,12 +4,12 @@ from .base import Station
 from ..tiled import Map
 from ..character import Character
 from ..node import ImageButton, font
-from ..obj import TicketsOrder
 import os, random
 
 class OrderStation(Station):
-    def __init__(self, sound_manager):
+    def __init__(self, sound_manager, order):
         self.sound_manager = sound_manager
+        self.order = order
         super().__init__("Заказы", BLACK, GREEN)
         self.map = Map('assets/tiled/tmx/coffee_house.tmx', 48, 1)
         self.map_loaded = False
@@ -27,9 +27,6 @@ class OrderStation(Station):
         self.interact_btn = ImageButton("assets/sprites/characters/nps/interactive/place_order.png", (545, 90), 3)
         self.interact_btn_show = False
 
-        # Заказ
-        self.order = TicketsOrder()
-
         # Изображение callout
         self.callout_img = py.image.load("assets/sprites/characters/nps/interactive/callout.png").convert_alpha()
         self.callout_img = py.transform.scale(self.callout_img, (self.callout_img.get_width() * 3, self.callout_img.get_height() * 3))
@@ -44,6 +41,13 @@ class OrderStation(Station):
         self.espresso_sprites = self._load_sprites("assets/sprites/ingredients/espresso")
         self.milk_sprites = self._load_sprites("assets/sprites/ingredients/milk")
         self.syrup_sprites = self._load_sprites("assets/sprites/ingredients/syrup")
+
+        # Заказ
+        self.order.set_sprites(
+            espresso_sprites=self.espresso_sprites,
+            milk_sprites=self.milk_sprites,
+            syrup_sprites=self.syrup_sprites
+        )
 
     def _play_npc_sound(self):
         """Проигрывает звук громкости SFX"""
@@ -169,5 +173,7 @@ class OrderStation(Station):
             if event.type == py.MOUSEBUTTONDOWN and event.button == 1:
                 if self.interact_btn.signal(event.pos):
                     self.order.generate_random_order()
+                    self.order.show_order = True
+                    self.order.order_visible = True
                     self.interact_btn_show = False
                     self.callout_show = True
