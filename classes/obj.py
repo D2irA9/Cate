@@ -13,6 +13,7 @@ class TicketsOrder:
         self._load_data()
         self.current_order = None
         self.show_order = False
+        self.revealed = set()
 
         self.espresso_sprites = {}
         self.milk_sprites = {}
@@ -115,6 +116,10 @@ class TicketsOrder:
             }
         }
 
+        # Сбрасываем раскрытые блоки для нового заказа
+        self.revealed.clear()
+        self.show_order = True
+
         # Вывод в консоль
         print(f"Сгенерирован заказ: размер {cup['cup']}, емкость {capacity}")
         print(f"  Эспрессо: {esp_qty} порций, тип: {espresso['name'] if espresso else 'нет'}")
@@ -122,6 +127,29 @@ class TicketsOrder:
         print(f"  Сироп: {syrup['name'] if syrup else 'нет'}")
 
         return self.current_order
+
+    def reveal_by_index(self, index):
+        """Раскрывает компонент по индексу анимации"""
+        if index == 0:
+            self.reveal_cup()
+        elif index == 1:
+            self.reveal_milk()
+        elif index == 2:
+            self.reveal_espresso()
+        elif index == 3:
+            self.reveal_syrup()
+
+    def reveal_cup(self):
+        self.revealed.add('cup')
+
+    def reveal_milk(self):
+        self.revealed.add('milk')
+
+    def reveal_espresso(self):
+        self.revealed.add('espresso')
+
+    def reveal_syrup(self):
+        self.revealed.add('syrup')
 
     def draw(self, screen):
         if self.show_order:
@@ -151,7 +179,7 @@ class TicketsOrder:
 
         # Сироп
         syrup = self.current_order['syrup']
-        if syrup['name'] and syrup['name'] != 'нет':
+        if 'syrup' in self.revealed and syrup['name'] and syrup['name'] != 'нет':
             py.draw.rect(screen, syrup['color'], (x + 2, y + 2, width - 4, 76))
             if syrup['name'] in self.syrup_sprites:
                 img = self.syrup_sprites[syrup['name']]
@@ -174,45 +202,53 @@ class TicketsOrder:
 
         # Молоко
         milk_rect = (x, mid_y, half_width, mid_height)
-        py.draw.rect(screen, milk['color'], (milk_rect[0]+2, milk_rect[1]+2, milk_rect[2]-4, milk_rect[3]-4))
+        if 'milk' in self.revealed:
+            py.draw.rect(screen, milk['color'], (milk_rect[0]+2, milk_rect[1]+2, milk_rect[2]-4, milk_rect[3]-4))
+            if milk['type'] != 'нет' and milk['type'] in self.milk_sprites:
+                img = self.milk_sprites[milk['type']]
+                img_rect = img.get_rect(center=(x + half_width//2, mid_y + 100))
+                screen.blit(img, img_rect)
+                if font:
+                    portions = font.text_ret(24, f"x{milk['portions']}", BLACK)
+                    p_rect = portions.get_rect(center=(x + half_width//2, mid_y + 160))
+                    screen.blit(portions, p_rect)
+                    temp_symbol = "г" if milk['temperature'] == "горячее" else "х"
+                    temp_text = font.text_ret(20, temp_symbol, BLACK)
+                    t_rect = temp_text.get_rect(center=(x + half_width//2, mid_y + 190))
+                    screen.blit(temp_text, t_rect)
+        else:
+            py.draw.rect(screen, (200,200,200), (milk_rect[0]+2, milk_rect[1]+2, milk_rect[2]-4, milk_rect[3]-4))
         py.draw.rect(screen, CONTOUR, milk_rect, 1)
-        if milk['type'] != 'нет' and milk['type'] in self.milk_sprites:
-            img = self.milk_sprites[milk['type']]
-            img_rect = img.get_rect(center=(x + half_width//2, mid_y + 100))
-            screen.blit(img, img_rect)
-            if font:
-                portions = font.text_ret(24, f"x{milk['portions']}", BLACK)
-                p_rect = portions.get_rect(center=(x + half_width//2, mid_y + 160))
-                screen.blit(portions, p_rect)
-                temp_symbol = "г" if milk['temperature'] == "горячее" else "х"
-                temp_text = font.text_ret(20, temp_symbol, BLACK)
-                t_rect = temp_text.get_rect(center=(x + half_width//2, mid_y + 190))
-                screen.blit(temp_text, t_rect)
 
         # Эспрессо
         espresso_rect = (x + half_width, mid_y, half_width, mid_height)
-        py.draw.rect(screen, espresso['color'], (espresso_rect[0]+2, espresso_rect[1]+2, espresso_rect[2]-4, espresso_rect[3]-4))
+        if 'espresso' in self.revealed:
+            py.draw.rect(screen, espresso['color'], (espresso_rect[0]+2, espresso_rect[1]+2, espresso_rect[2]-4, espresso_rect[3]-4))
+            if espresso['type'] != 'нет' and espresso['type'] in self.espresso_sprites:
+                img = self.espresso_sprites[espresso['type']]
+                img_rect = img.get_rect(center=(x + half_width + half_width//2, mid_y + 100))
+                screen.blit(img, img_rect)
+                if font:
+                    portions = font.text_ret(24, f"x{espresso['portions']}", BLACK)
+                    p_rect = portions.get_rect(center=(x + half_width + half_width//2, mid_y + 160))
+                    screen.blit(portions, p_rect)
+        else:
+            py.draw.rect(screen, (200,200,200), (espresso_rect[0]+2, espresso_rect[1]+2, espresso_rect[2]-4, espresso_rect[3]-4))
         py.draw.rect(screen, CONTOUR, espresso_rect, 1)
-        if espresso['type'] != 'нет' and espresso['type'] in self.espresso_sprites:
-            img = self.espresso_sprites[espresso['type']]
-            img_rect = img.get_rect(center=(x + half_width + half_width//2, mid_y + 100))
-            screen.blit(img, img_rect)
-            if font:
-                portions = font.text_ret(24, f"x{espresso['portions']}", BLACK)
-                p_rect = portions.get_rect(center=(x + half_width + half_width//2, mid_y + 160))
-                screen.blit(portions, p_rect)
-
         py.draw.line(screen, CONTOUR, (x + half_width, mid_y), (x + half_width, mid_y + mid_height), 3)
 
         # Чашка
         cup = self.current_order['cup']
         cup_rect = (x, y + height - 40, width, 40)
-        py.draw.rect(screen, cup['color'], (cup_rect[0]+2, cup_rect[1]+2, cup_rect[2]-4, cup_rect[3]-4))
+        if 'cup' in self.revealed:
+            py.draw.rect(screen, cup['color'], (cup_rect[0]+2, cup_rect[1]+2, cup_rect[2]-4, cup_rect[3]-4))
+            if font:
+                cup_text = font.text_ret(40, cup['cup'], BLACK)
+                text_rect = cup_text.get_rect(center=(x + width//2, y + height - 20))
+                screen.blit(cup_text, text_rect)
+        else:
+            py.draw.rect(screen, (200,200,200), (cup_rect[0]+2, cup_rect[1]+2, cup_rect[2]-4, cup_rect[3]-4))
         py.draw.rect(screen, CONTOUR, cup_rect, 1)
-        if font:
-            cup_text = font.text_ret(40, cup['cup'], BLACK)
-            text_rect = cup_text.get_rect(center=(x + width//2, y + height - 20))
-            screen.blit(cup_text, text_rect)
 
     def events(self, events):
         for event in events:

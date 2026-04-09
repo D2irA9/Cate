@@ -19,7 +19,7 @@ class OrderStation(Station):
         self.split_player = 2
 
         # Nps
-        self.nps = None
+        self.npc = None
         self._load_random_npc()
         self.split_nps = 4
         self.npc_sound = py.mixer.Sound("assets/sounds/sound/nps/pop.mp3")
@@ -88,9 +88,6 @@ class OrderStation(Station):
         if not self.map_loaded:
             self.map.load_map()
             self.map_loaded = True
-            # по имени слоя
-            # if 'walls' in self.map.layer_names:
-            #     self.split_index = self.map.layer_names.index('walls') + 1
 
         # Рисуем нижние слои
         for i in range(self.split_player):
@@ -113,6 +110,8 @@ class OrderStation(Station):
                 self.animation_index = 0
                 self.animation_timer = now + 1000
                 self._play_npc_sound()
+                # Раскрываем чашку на тикете
+                self.order.reveal_by_index(0)
             elif self.animation_timer and now > self.animation_timer:
                 self.animation_index += 1
                 self._play_npc_sound()
@@ -121,6 +120,8 @@ class OrderStation(Station):
                     self.animation_index = -1
                     self.animation_timer = 0
                 else:
+                    # Раскрываем соответствующий компонент на тикете
+                    self.order.reveal_by_index(self.animation_index)
                     self.animation_timer = now + 1000
 
             # Отрисовка текущего элемента
@@ -173,7 +174,7 @@ class OrderStation(Station):
             if event.type == py.MOUSEBUTTONDOWN and event.button == 1:
                 if self.interact_btn.signal(event.pos):
                     self.order.generate_random_order()
-                    self.order.show_order = True
-                    self.order.order_visible = True
                     self.interact_btn_show = False
                     self.callout_show = True
+                    self.animation_index = -1
+                    self.animation_timer = 0

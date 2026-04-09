@@ -178,7 +178,6 @@ class StationManager:
         self.stations[self.current_station].events(events)
 
     def draw(self, screen):
-
         self.stations[self.current_station].draw(screen)
         self.settings_btn.draw(screen)
         self.order.draw(screen)
