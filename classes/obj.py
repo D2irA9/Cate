@@ -158,7 +158,7 @@ class TicketsOrder:
             self._draw_click_indicator(screen)
 
     def _draw_click_indicator(self, screen):
-        x, y = 970, 0
+        x, y = 150, 0
         width, height = 50, 100
         py.draw.rect(screen, ORDER_TICKET, (x, y, width, height))
         py.draw.rect(screen, CONTOUR, (x, y, width, height), 3)
@@ -167,7 +167,7 @@ class TicketsOrder:
         if not self.current_order:
             return
 
-        x, y = 920, 0
+        x, y = 50, 0
         width, height = 280, 400
 
         py.draw.rect(screen, ORDER_TICKET, (x, y, width, height))
@@ -185,10 +185,6 @@ class TicketsOrder:
                 img = self.syrup_sprites[syrup['name']]
                 img_rect = img.get_rect(center=(x + width//2, y + 40))
                 screen.blit(img, img_rect)
-            if font:
-                text = font.text_ret(18, syrup['name'], BLACK)
-                text_rect = text.get_rect(center=(x + width//2, y + 70))
-                screen.blit(text, text_rect)
         else:
             py.draw.rect(screen, (200,200,200), (x + 2, y + 2, width - 4, 76))
 
