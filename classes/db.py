@@ -78,11 +78,8 @@ class DB:
     def check_player(self, id_player):
         """Проверка, если ли такой пользователь"""
         try:
-            query = """
-                        SELECT p.id FROM players p
-                        WHERE p.id = %s
-                    """
-            self.cursor.execute(query, (id_player))
+            query = "SELECT p.id FROM players p WHERE p.id = %s"
+            self.cursor.execute(query, (id_player,))
             return self.cursor.fetchall()
         except Exception as e:
             print(f"Ошибка получения статистики: {e}")

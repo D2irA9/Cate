@@ -84,6 +84,15 @@ class ImageButton:
         """Для кликов"""
         return self.rect.collidepoint(pos)
 
+    def flip(self, xbool=True, ybool=False):
+        """
+        Зеркально отражает изображение кнопки.
+        xbool – отразить по горизонтали, ybool – по вертикали.
+        """
+        self.image = py.transform.flip(self.image, xbool, ybool)
+        self.rect = self.image.get_rect(topleft=self.rect.topleft)
+        return self
+
 class CircleButton:
     """Круглые кнопки с текстом"""
     def __init__(self, radius, bg_color, pos, text="", text_color=(0, 0, 0), font_size=20):

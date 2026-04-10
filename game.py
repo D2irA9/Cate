@@ -1,5 +1,4 @@
 from globals import *
-from classes.stations import StationManager
 import sys
 
 def game(screen, events, station_manager):

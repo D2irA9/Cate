@@ -1,5 +1,6 @@
 import pygame as py, os
 from classes.db import DB
+from classes.node import font
 
 db = DB()
 py.init()

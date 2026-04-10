@@ -1,6 +1,6 @@
 from colors import *
 from globals import *
-from classes.node import font, Button
+from classes.node import Button
 from classes.stations import StationManager
 from classes.sound_manager import SoundManager
 from game import game

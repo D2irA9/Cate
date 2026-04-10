@@ -1,7 +1,10 @@
 from ..node import ImageButton, font
 from .order import OrderStation
+from .brew import BrewStation
+from .build import BuildStation
 from globals import *
 from colors import *
+from ..obj import TicketsOrder
 
 class Slider:
     def __init__(self, line_rect, handle_sprite, initial_val=1.0):
@@ -51,10 +54,45 @@ class Slider:
 
 class StationManager:
     def __init__(self, sound_manager, logout_callback):
+        self.order = TicketsOrder()
         self.stations = {
-            "order": OrderStation(),
+            "order": OrderStation(sound_manager, self.order),
+            "brew": BrewStation(),
+            "build": BuildStation(),
         }
         self.current_station = "order"
+
+        # Загружаем спрайты кнопок
+        self.nav_sprites = {}
+        scale = 3
+        for st in ["order", "brew", "build"]:
+            path = f"assets/sprites/buttons/{st}.png"
+            img = py.image.load(path).convert_alpha()
+            w = 102 * scale
+            h = 35 * scale
+            self.nav_sprites[st] = py.transform.scale(img, (w, h))
+
+        # Позиции кнопок внизу по углам
+        button_width = 102 * scale
+        button_height = 35 * scale
+        left_pos = (0, 720 - button_height)
+        right_pos = (1200 - button_width, 720 - button_height)
+
+        self.navigation_buttons = {
+            "left": ImageButton("assets/sprites/buttons/order.png", left_pos, scale=1),
+            "right": ImageButton("assets/sprites/buttons/order.png", right_pos, scale=1)
+        }
+        self.show_left_button = False
+        self.show_right_button = False
+
+        self.navigation_map = {
+            "order": {"left": None, "right": "brew"},
+            "brew": {"left": "build", "right": "order"},
+            "build": {"left": None, "right": "brew"}
+        }
+
+        self.connect_stations()
+        self.update_navigation()
 
         self.sound_manager = sound_manager
         self.logout_callback = logout_callback
@@ -105,6 +143,48 @@ class StationManager:
         # Кнопка карточек
         self.cards_btn = ImageButton("assets/sprites/settings/cards.png", (1200 // 2 + 30, 450), 3)
 
+    def connect_stations(self):
+        """Связываем станции между собой"""
+        brew_station = self.stations["brew"]
+        build_station = self.stations["build"]
+        order_station = self.stations["order"]
+
+        brew_station.build_station = build_station
+        build_station.order_station = order_station
+
+    def switch_to(self, station_name):
+        if station_name in self.stations:
+            self.stations[self.current_station].deactivate()
+            self.current_station = station_name
+            self.stations[station_name].activate()
+            self.update_navigation()
+
+    def update_navigation(self):
+        """Обновление видимости и изображений кнопок навигации"""
+        current_nav = self.navigation_map[self.current_station]
+
+        # Левая кнопка
+        left_target = current_nav.get("left")
+        if left_target:
+            sprite = self.nav_sprites[left_target].copy()
+            # Отражаем горизонтально для левой кнопки
+            sprite = py.transform.flip(sprite, True, False)
+            self.navigation_buttons["left"].image = sprite
+            self.navigation_buttons["left"].rect = sprite.get_rect(topleft=self.navigation_buttons["left"].rect.topleft)
+            self.show_left_button = True
+        else:
+            self.show_left_button = False
+
+        # Правая кнопка
+        right_target = current_nav.get("right")
+        if right_target:
+            sprite = self.nav_sprites[right_target].copy()
+            self.navigation_buttons["right"].image = sprite
+            self.navigation_buttons["right"].rect = sprite.get_rect(topleft=self.navigation_buttons["right"].rect.topleft)
+            self.show_right_button = True
+        else:
+            self.show_right_button = False
+
     def settings_draw(self, screen):
         py.draw.rect(screen, SETTINGS_FON, (250, 180, 700, 400))
         py.draw.rect(screen, CONTOUR, (250, 180, 700, 400), 3)
@@ -146,6 +226,8 @@ class StationManager:
             if new_sfx_vol != self.sound_manager.sfx_volume:
                 self.sound_manager.set_sfx_volume(new_sfx_vol)
 
+        self.order.events(events)
+
         for event in events:
             if event.type == py.KEYDOWN and event.key == py.K_ESCAPE:
                 self.settings_show = not self.settings_show
@@ -172,10 +254,27 @@ class StationManager:
                     elif self.cards_btn.signal(event.pos):
                         print("Карточки")
 
+                # Навигационные кнопки
+                current_nav = self.navigation_map[self.current_station]
+                if self.show_right_button and self.navigation_buttons["right"].signal(event.pos):
+                    target = current_nav.get("right")
+                    if target:
+                        self.switch_to(target)
+                if self.show_left_button and self.navigation_buttons["left"].signal(event.pos):
+                    target = current_nav.get("left")
+                    if target:
+                        self.switch_to(target)
+
         self.stations[self.current_station].events(events)
 
     def draw(self, screen):
         self.stations[self.current_station].draw(screen)
         self.settings_btn.draw(screen)
+        self.order.draw(screen)
         if self.settings_show:
             self.settings_draw(screen)
+
+        if self.show_left_button:
+            self.navigation_buttons["left"].draw(screen)
+        if self.show_right_button:
+            self.navigation_buttons["right"].draw(screen)
